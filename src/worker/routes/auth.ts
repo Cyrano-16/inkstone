@@ -381,7 +381,10 @@ async function enforceAttemptBudget(
 }
 
 function normalizeLocale(value: unknown): AppLocale {
-  return typeof value === 'string' && value.toLowerCase().startsWith('en') ? 'en-US' : 'zh-CN'
+  if (typeof value !== 'string') return 'zh-CN'
+  const tag = value.toLowerCase()
+  if (tag.startsWith('en')) return 'en-US'
+  return /(^|-)(tw|hk|mo|hant)(-|$)/.test(tag) ? 'zh-TW' : 'zh-CN'
 }
 
 export function normalizeDisplayName(value: unknown): string | null {

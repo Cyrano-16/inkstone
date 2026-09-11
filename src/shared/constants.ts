@@ -106,7 +106,7 @@ export const BACKUP_INTERVALS: Record<string, number> = {
 }
 
 const THEMES = ['light', 'dark', 'system'] as const
-const LANGUAGES = ['zh-CN', 'en-US'] as const
+const LANGUAGES = ['zh-CN', 'zh-TW', 'en-US'] as const
 const ACCENT_NAMES = ACCENTS.map((accent) => accent.name)
 const BACKGROUND_NAMES = ['paper', 'white'] as const
 const DENSITIES = ['comfortable', 'compact'] as const
