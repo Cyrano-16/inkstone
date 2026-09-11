@@ -49,9 +49,12 @@ const allowedHanFragments = new Map([
 ]);
 const english = readMessages(path.join(localeRoot, 'en-US.ts'), 'EN_US_MESSAGES');
 const chinese = readMessages(path.join(localeRoot, 'zh-CN.ts'), 'ZH_CN_MESSAGES');
+const traditional = readMessages(path.join(localeRoot, 'zh-TW.ts'), 'ZH_TW_MESSAGES');
 for (const key of english.keys()) {
     if (!chinese.has(key))
         failures.push(`missing zh-CN message: ${key}`);
+    if (!traditional.has(key))
+        failures.push(`missing zh-TW message: ${key}`);
     if (!/^[a-z][a-z0-9]*(?:\.[a-z0-9_]+)+$/.test(key))
         failures.push(`invalid English message key: ${key}`);
     if (forbiddenCjk.test(key))
@@ -61,11 +64,17 @@ for (const key of chinese.keys()) {
     if (!english.has(key))
         failures.push(`missing en-US message: ${key}`);
 }
+for (const key of traditional.keys()) {
+    if (!english.has(key))
+        failures.push(`unknown zh-TW message: ${key}`);
+}
 for (const [key, value] of english) {
     if (forbiddenCjk.test(value))
         failures.push(`untranslated en-US message: ${key}`);
     if (placeholders(value) !== placeholders(chinese.get(key) ?? ''))
         failures.push(`placeholder mismatch: ${key}`);
+    if (placeholders(value) !== placeholders(traditional.get(key) ?? ''))
+        failures.push(`placeholder mismatch (zh-TW): ${key}`);
 }
 const englishOnlyPaths = [
     path.resolve('src'),
@@ -75,7 +84,7 @@ const englishOnlyPaths = [
     path.resolve('.github'),
 ];
 for (const file of englishOnlyPaths.flatMap((target) => fs.existsSync(target) ? [...walk(target)] : [])) {
-    if (file === path.join(localeRoot, 'zh-CN.ts') || !isTextSource(file))
+    if (file === path.join(localeRoot, 'zh-CN.ts') || file === path.join(localeRoot, 'zh-TW.ts') || !isTextSource(file))
         continue;
     rejectHan(file);
 }
@@ -142,7 +151,7 @@ if (failures.length) {
     failures.forEach((failure) => console.error(`  ${failure}`));
     process.exit(1);
 }
-console.log(`i18n check passed: ${english.size} English keys with complete en-US and zh-CN resources`);
+console.log(`i18n check passed: ${english.size} English keys with complete en-US, zh-CN and zh-TW resources`);
 function placeholders(value) {
     return [...value.matchAll(/\{[A-Za-z0-9_]+\}/g)].map((match) => match[0]).sort().join('|');
 }

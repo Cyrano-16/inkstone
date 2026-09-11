@@ -82,7 +82,7 @@ export interface UpdateCheckResponse {
 
 
 export type ThemePref = 'light' | 'dark' | 'system'
-export type AppLocale = 'zh-CN' | 'en-US'
+export type AppLocale = 'zh-CN' | 'zh-TW' | 'en-US'
 export type AccentName = 'cinnabar' | 'indigo' | 'celadon' | 'amber' | 'terracotta' | 'wisteria' | 'graphite'
 export type BackgroundName = 'paper' | 'white'
 export type UiDensity = 'comfortable' | 'compact'

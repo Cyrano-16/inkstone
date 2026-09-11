@@ -796,6 +796,7 @@ export const EN_US_MESSAGES = {
     "settings.sign_in_security": "Sign-in security",
     "settings.sign_up": "Sign up",
     "settings.simplified_chinese": "Simplified Chinese",
+    "settings.traditional_chinese": "Traditional Chinese",
     "settings.spellcheck": "Spellcheck",
     "settings.standard": "Standard",
     "settings.store_backups_in_this_directory_or_leave_blank_to_use_the_root_directory": "Store backups in this directory, or leave blank to use the root directory",

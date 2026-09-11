@@ -36,6 +36,7 @@ export function AppearanceSettings({
             onChange={(language) => void update({ appearance: { language } })}
             options={[
               { value: 'zh-CN', label: t("settings.simplified_chinese") },
+              { value: 'zh-TW', label: t("settings.traditional_chinese") },
               { value: 'en-US', label: t("settings.english") },
             ]}
           />

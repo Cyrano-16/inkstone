@@ -797,6 +797,7 @@ export const ZH_CN_MESSAGES = {
     "settings.sign_in_security": "登录安全",
     "settings.sign_up": "前往注册",
     "settings.simplified_chinese": "简体中文",
+    "settings.traditional_chinese": "繁体中文",
     "settings.spellcheck": "拼写检查",
     "settings.standard": "标准",
     "settings.store_backups_in_this_directory_or_leave_blank_to_use_the_root_directory": "备份会放在这个目录下，留空则放在根目录",

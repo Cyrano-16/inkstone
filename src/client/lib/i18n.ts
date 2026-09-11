@@ -9,6 +9,7 @@ const listeners = new Set<() => void>();
 const messages: Record<AppLocale, Record<string, string>> = {
     'en-US': {},
     'zh-CN': {},
+    'zh-TW': {},
 };
 let enMessagesCache: Record<string, string> | null = null;
 const apiCodeMessages: Record<string, MessageKey> = {
@@ -43,6 +44,7 @@ let initPromise: Promise<void> | null = null;
 const localeLoaders: Record<AppLocale, () => Promise<Record<string, string>>> = {
     'en-US': () => import('@shared/locales/en-US').then((m) => m.EN_US_MESSAGES as unknown as Record<string, string>),
     'zh-CN': () => import('@shared/locales/zh-CN').then((m) => m.ZH_CN_MESSAGES as unknown as Record<string, string>),
+    'zh-TW': () => import('@shared/locales/zh-TW').then((m) => m.ZH_TW_MESSAGES as unknown as Record<string, string>),
 };
 const loadedLocales = new Set<AppLocale>();
 async function ensureLocaleLoaded(target: AppLocale): Promise<void> {
@@ -117,7 +119,7 @@ export function getLocale(): AppLocale {
     return locale;
 }
 export function setLocale(next: AppLocale, persist = true): void {
-    if (next !== 'zh-CN' && next !== 'en-US')
+    if (next !== 'zh-CN' && next !== 'zh-TW' && next !== 'en-US')
         return;
     locale = next;
     if (persist) {
@@ -153,11 +155,15 @@ export function localeTag(): string {
 function detectInitialLocale(): AppLocale {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved === 'zh-CN' || saved === 'en-US')
+        if (saved === 'zh-CN' || saved === 'zh-TW' || saved === 'en-US')
             return saved;
     }
     catch { }
-    return navigator.language.toLowerCase().startsWith('zh') ? 'zh-CN' : 'en-US';
+    const tag = navigator.language.toLowerCase();
+    if (!tag.startsWith('zh'))
+        return 'en-US';
+    // Hant / TW / HK / MO browser tags get Traditional; other Chinese tags get Simplified.
+    return /(^|-)(tw|hk|mo|hant)(-|$)/.test(tag) ? 'zh-TW' : 'zh-CN';
 }
 function applyLocaleToDom(): void {
     document.documentElement.lang = locale;

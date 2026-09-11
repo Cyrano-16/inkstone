@@ -1,5 +1,6 @@
 import { EN_US_MESSAGES } from './locales/en-US'
 import { ZH_CN_MESSAGES } from './locales/zh-CN'
+import { ZH_TW_MESSAGES } from './locales/zh-TW'
 import type { AppLocale } from './types'
 
 export interface WelcomeNoteTemplate {
@@ -9,6 +10,7 @@ export interface WelcomeNoteTemplate {
 
 const WELCOME_NOTE_CONTENT: Record<AppLocale, string> = {
   'zh-CN': ZH_CN_MESSAGES['seed.welcome_note'],
+  'zh-TW': ZH_TW_MESSAGES['seed.welcome_note'],
   'en-US': EN_US_MESSAGES['seed.welcome_note'],
 }
 
@@ -17,7 +19,9 @@ export function welcomeNoteContent(locale: AppLocale): string {
 }
 
 export function welcomeNoteTemplates(preferredLocale: AppLocale = 'zh-CN'): WelcomeNoteTemplate[] {
-  const secondaryLocale: AppLocale = preferredLocale === 'zh-CN' ? 'en-US' : 'zh-CN'
+  // Pair each locale with a genuinely different language; zh-TW falls back to
+  // English rather than zh-CN so the second note is not a near-duplicate.
+  const secondaryLocale: AppLocale = preferredLocale === 'en-US' ? 'zh-CN' : 'en-US'
   return [preferredLocale, secondaryLocale].map((locale) => ({
     locale,
     content: welcomeNoteContent(locale),

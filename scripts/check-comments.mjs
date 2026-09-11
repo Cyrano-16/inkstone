@@ -15,7 +15,12 @@ const allowed = new Map([
     "// enforces the same minimum); short codes are trivially brute-forced.",
   ]],
   ["src/client/lib/i18n.ts", [
-    "/** Provides typed runtime localization with complete English and Simplified Chinese resources. */",
+    "/** Provides typed runtime localization with on-demand locale loading. */",
+    "// Hant / TW / HK / MO browser tags get Traditional; other Chinese tags get Simplified.",
+  ]],
+  ["src/shared/welcome-notes.ts", [
+    "// Pair each locale with a genuinely different language; zh-TW falls back to",
+    "// English rather than zh-CN so the second note is not a near-duplicate.",
   ]],
   ["src/client/lib/markdown/renderer.ts", [
     "/** Builds the sanitized Markdown rendering pipeline and its Inkstone-specific syntax extensions. */",
